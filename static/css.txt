@@ -1,0 +1,49 @@
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    height: 50px;
+}
+
+.topo-direita {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-topo {
+    background: #2563eb;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.sair {
+    background: #dc2626;
+}
+
+/* 🔥 NOVO - BOTÕES DO FILTRO */
+.btn-filtro {
+    background: #2563eb;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}

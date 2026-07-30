@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABRIR CHAMADO</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f6f8;
+}
+
+.container {
+    max-width: 760px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.box {
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+}
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    height: 50px;
+}
+
+.btn-topo {
+    background: #2563eb;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+textarea {
+    min-height: 140px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #16a34a;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.sucesso {
+    background: #dcfce7;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<div class="box">
+
+<div class="topo">
+    <div class="logo-area">
+        <img src="/static/logo.png" class="logo">
+        <h2>Abrir Chamado</h2>
+    </div>
+
+    <a href="/consultar" class="btn-topo">CONSULTAR CHAMADO</a>
+</div>
+
+{% if sucesso %}
+<div class="sucesso">
+    Chamado aberto! Nº: {{ ultimo_id }}
+</div>
+{% endif %}
+
+<form method="post">
+
+<input name="titulo" placeholder="Título" required>
+<input name="nome" placeholder="Seu nome" required>
+
+<div class="grid-2">
+    <select name="setor" required>
+        <option value="">Setor</option>
+        <option>Comercial</option>
+        <option>Fiscal</option>
+        <option>Financeiro</option>
+        <option>RH</option>
+    </select>
+
+                <select name="categoria" required>
+                    <option value="">Categoria</option>
+                    <option value="Caixa de SPAM">Caixa de SPAM</option>
+                    <option value="Internet">Internet</option>
+                    <option value="Sistema">Sistema</option>
+                    <option value="Acesso/Senha">Acesso/Senha</option>
+                    <option value="Impressora">Impressora</option>
+                    <option value="Telefone fixo">Telefone fixo</option>
+                    <option value="Outros">Outros</option>
+
+                </select>
+
+</div>
+
+<textarea name="descricao" placeholder="Descreva o problema..." required></textarea>
+
+<button type="submit">Abrir Chamado</button>
+
+</form>
+
+</div>
+</div>
+
+</body>
+</html>

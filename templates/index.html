@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Técnico</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            margin: 0;
+            background: #f5f6f8;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        .topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .logo {
+            height: 50px;
+        }
+        .logo-area h2 {
+            margin: 0;
+            font-size: 30px;
+        }
+        .topo-direita {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .usuario {
+            font-weight: bold;
+        }
+        .btn-topo {
+            background: #2563eb;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .btn-topo.sair {
+            background: #dc2626;
+        }
+        .cards-resumo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .resumo {
+            background: white;
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
+        }
+        .resumo h3 {
+            margin: 0 0 8px;
+            font-size: 15px;
+            color: #6b7280;
+        }
+        .resumo p {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .lista-chamados {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+            border-left: 6px solid #d1d5db;
+        }
+        .alta { border-left-color: #dc2626; }
+        .media { border-left-color: #d97706; }
+        .baixa { border-left-color: #16a34a; }
+        .linha-topo {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            padding: 6px 10px;
+            border-radius: 999px;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .badge-alta { background: #dc2626; }
+        .badge-media { background: #d97706; }
+        .badge-baixa { background: #16a34a; }
+        .info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .campo {
+            background: #f9fafb;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        .descricao {
+            margin-top: 14px;
+            background: #f9fafb;
+            padding: 14px;
+            border-radius: 10px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        .acoes {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .acoes a {
+            padding: 10px 14px;
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .btn-recebido { background: #6b7280; }
+        .btn-atendimento { background: #2563eb; }
+        .btn-concluido { background: #16a34a; }
+        .btn-excluir { background: #dc2626; }
+        .vazio {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        /* 🔔 NOTIFICAÇÃO */
+        .popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #111827;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 900px) {
+            .info { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 500px) {
+            .info { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="topo">
+        <div class="logo-area">
+            <img src="/static/logo.png" class="logo">
+            <h2>Painel Técnico</h2>
+        </div>
+        <div class="topo-direita">
+            <span class="usuario">{{ tecnico }}</span>
+            <a href="/dashboard" class="btn-topo">Dashboard</a>
+            <a href="/historico" class="btn-topo">Histórico</a>
+            <a href="/logout" class="btn-topo sair">Sair</a>
+        </div>
+    </div>
+
+    <div class="cards-resumo">
+        <div class="resumo"><h3>Total</h3><p>{{ total }}</p></div>
+        <div class="resumo"><h3>Recebidos</h3><p>{{ abertos }}</p></div>
+        <div class="resumo"><h3>Em atendimento</h3><p>{{ andamento }}</p></div>
+        <div class="resumo"><h3>Concluídos</h3><p>{{ concluidos }}</p></div>
+    </div>
+
+    <div class="lista-chamados">
+        {% if chamados %}
+        {% for c in chamados %}
+        <div class="card {% if c['prioridade']=='Alta' %}alta{% elif c['prioridade']=='Média' %}media{% else %}baixa{% endif %}">
+            
+            <div class="linha-topo">
+                <h3>#{{ c["id"] }} - {{ c["titulo"] }}</h3>
+                <span class="badge {% if c['prioridade'] == 'Alta' %}badge-alta{% elif c['prioridade'] == 'Média' %}badge-media{% else %}badge-baixa{% endif %}">
+                    {{ c["prioridade"] }}
+                </span>
+            </div>
+
+            <div class="info">
+                <div class="campo">👤 Nome: {{ c["nome"] }}</div>
+                <div class="campo">🏢 Setor: {{ c["setor"] }}</div>
+                <div class="campo">📂 Categoria: {{ c["categoria"] }}</div>
+                <div class="campo">📌 Status: {{ c["status"] }}</div>
+                <div class="campo">🛠 Técnico: {{ c["tecnico"] }}</div>
+                <div class="campo">📅 Abertura: {{ c["data"] }}</div>
+                <div class="campo">⏱ Início: {{ c["inicio"] }}</div>
+                <div class="campo">🏁 Fim: {{ c["fim"] }}</div>
+                <div class="campo">⏳ Tempo: {{ c["tempo"] }}</div>
+                <div class="campo">🌐 IP: {{ c["ip"] }}</div>
+                <div class="campo">💻 Máquina: {{ c["nome_maquina"] }}</div>
+                <div class="campo">🧭 Navegador: {{ c["navegador"] }}</div>
+            </div>
+
+            <div class="descricao">
+                <strong>Descrição:</strong><br>
+                {{ c["descricao"] }}
+            </div>
+
+            <div class="acoes">
+                <a href="/status/{{ c['id'] }}/recebido" class="btn-recebido">📥 Recebido</a>
+                <a href="/status/{{ c['id'] }}/atendimento" class="btn-atendimento">▶ Atender</a>
+                <a href="/status/{{ c['id'] }}/concluido" class="btn-concluido">✔ Concluir</a>
+                <a href="/excluir/{{ c['id'] }}" class="btn-excluir">🗑 Excluir</a>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="vazio">Nenhum chamado em aberto no momento.</div>
+        {% endif %}
+    </div>
+</div>
+
+<div id="popup-notificacao" class="popup">
+    🔔 Novo chamado recebido
+</div>
+
+<script>
+let ultimoTotalChamados = {{ chamados|length }};
+
+function mostrarPopup() {
+    const popup = document.getElementById("popup-notificacao");
+    popup.style.display = "block";
+    setTimeout(() => {
+        popup.style.display = "none";
+    }, 3000);
+}
+
+async function verificarChamadosNovos() {
+    try {
+        const res = await fetch("/api/chamados_info");
+        const dados = await res.json();
+
+        if (dados.total > ultimoTotalChamados) {
+            mostrarPopup();
+            setTimeout(() => location.reload(), 2000);
+        }
+
+        ultimoTotalChamados = dados.total;
+    } catch {}
+}
+
+setInterval(verificarChamadosNovos, 5000);
+</script>
+</body>
+</html>

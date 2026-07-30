@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Chamados</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .acoes a {
+            text-decoration: none;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .voltar { background: #2563eb; }
+        .sair { background: #ef4444; }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+            border-left: 6px solid #22c55e;
+        }
+
+        .titulo {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .desc {
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #dcfce7;
+            color: #15803d;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .vazio {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            color: #6b7280;
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="topo">
+            <div>
+                <h1>Histórico de Chamados</h1>
+                <div>Técnico: <strong>{{ tecnico }}</strong></div>
+            </div>
+
+            <div class="acoes">
+                <a class="voltar" href="/">Voltar ao painel</a>
+                <a class="sair" href="/logout">Sair</a>
+            </div>
+        </div>
+
+        {% if chamados|length == 0 %}
+            <div class="vazio">Nenhum chamado concluído no histórico.</div>
+        {% endif %}
+
+        {% for c in chamados %}
+        <div class="card">
+            <div class="titulo">{{ c["titulo"] }}</div>
+            <div class="desc">{{ c["descricao"] }}</div>
+
+            <div class="meta">
+                <div><strong>👤 Nome:</strong> {{ c["nome"] }}</div>
+                <div><strong>🏢 Setor:</strong> {{ c["setor"] }}</div>
+                <div><strong>📂 Categoria:</strong> {{ c["categoria"] }}</div>
+                <div><strong>⚡ Prioridade:</strong> {{ c["prioridade"] }}</div>
+                <div><strong>👨‍💻 Técnico:</strong> {{ c["tecnico"] if c["tecnico"] else "Ninguém" }}</div>
+                <div><strong>📅 Abertura:</strong> {{ c["data"] }}</div>
+                <div><strong>⏱ Tempo:</strong> {{ c["tempo"] if c["tempo"] else "Sem tempo registrado" }}</div>
+                <div><strong>🌐 IP:</strong> {{ c["ip"] if "ip" in c.keys() and c["ip"] else "Não identificado" }}</div>
+                <div><strong>💻 Máquina:</strong> {{ c["nome_maquina"] if "nome_maquina" in c.keys() and c["nome_maquina"] else "Não identificado" }}</div>
+                <div><strong>🖥 Navegador:</strong> {{ c["navegador"] if "navegador" in c.keys() and c["navegador"] else "Não identificado" }}</div>
+                <div><strong>Início:</strong> {{ c["inicio"] }}</div>
+                <div><strong>Fim:</strong> {{ c["fim"] }}</div>
+                <div><strong>Tempo:</strong> {{ c["tempo"] }}</div>
+
+            <span class="badge">Concluído</span>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

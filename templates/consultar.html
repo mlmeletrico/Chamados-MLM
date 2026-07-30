@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consultar Chamados</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f6f8;
+}
+
+.container {
+    max-width: 760px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.box {
+    background: white;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+}
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+h2 {
+    margin: 0;
+}
+
+.btn-topo {
+    background: #16a34a;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 16px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.resultado {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.chamado {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.status {
+    font-weight: bold;
+}
+
+.alta {
+    color: #dc2626;
+}
+
+.media {
+    color: #d97706;
+}
+
+.baixa {
+    color: #16a34a;
+}
+
+.erro {
+    color: #dc2626;
+    margin-top: 15px;
+}
+
+@media (max-width: 700px) {
+    .topo {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="box">
+
+        <!-- TOPO -->
+        <div class="topo">
+            <h2>Consultar Chamados</h2>
+            <a href="/cliente" class="btn-topo">NOVO CHAMADO</a>
+        </div>
+
+        <!-- BUSCA -->
+        <form method="post">
+            <input name="nome" placeholder="Digite seu nome" required>
+            <button type="submit">Buscar</button>
+        </form>
+
+        <!-- RESULTADOS -->
+        {% if chamados %}
+        <div class="resultado">
+            <h3>Resultados:</h3>
+
+            {% for c in chamados %}
+            <div class="chamado">
+                <p><b>ID:</b> {{ c["id"] }}</p>
+                <p><b>Título:</b> {{ c["titulo"] }}</p>
+
+                <p>
+                    <b>Status:</b>
+                    <span class="status">{{ c["status"] }}</span>
+                </p>
+
+                <p>
+                    <b>Prioridade:</b>
+                    <span class="
+                        {% if c['prioridade'] == 'Alta' %}alta
+                        {% elif c['prioridade'] == 'Média' %}media
+                        {% else %}baixa{% endif %}
+                    ">
+                        {{ c["prioridade"] }}
+                    </span>
+                </p>
+
+                <p><b>Técnico:</b> {{ c["tecnico"] if c["tecnico"] else "Aguardando" }}</p>
+                <p><b>Data:</b> {{ c["data"] }}</p>
+                <p><b>Início:</b> {{ c["inicio"] if c["inicio"] else "Não iniciado" }}</p>
+                <p><b>Fim:</b> {{ c["fim"] if c["fim"] else "Não finalizado" }}</p>
+                <p><b>Tempo:</b> {{ c["tempo"] if c["tempo"] else "Em andamento" }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% elif buscou %}
+        <p class="erro">Nenhum chamado encontrado.</p>
+        {% endif %}
+
+    </div>
+</div>
+
+</body>
+</html>

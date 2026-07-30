@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #1f2937;
+        }
+
+        .box {
+            width: 360px;
+            background: white;
+            padding: 28px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 24px;
+        }
+
+        p {
+            margin: 0 0 20px;
+            color: #6b7280;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #3b82f6;
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            background: #2563eb;
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .erro {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Login do Técnico</h1>
+        <p>Acesse o painel de chamados</p>
+
+        {% if erro %}
+            <div class="erro">{{ erro }}</div>
+        {% endif %}
+
+        <form method="post">
+            <input type="text" name="usuario" placeholder="Usuário" required>
+            <input type="password" name="senha" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+</body>
+</html>
